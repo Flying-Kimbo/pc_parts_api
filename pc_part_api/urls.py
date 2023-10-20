@@ -16,11 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path
+from pc_part_api import settings
 from pc_part_api.views import *
 from rest_framework.urlpatterns import format_suffix_patterns
+from django.conf.urls.static import static
 
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view as swagger_get_schema_view
+
 
 schema_view = swagger_get_schema_view(
     openapi.Info(
@@ -41,3 +44,5 @@ urlpatterns = [
     path('docs/', schema_view.with_ui('swagger', cache_timeout=0), name="swagger-schema"),
 ]
 
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
